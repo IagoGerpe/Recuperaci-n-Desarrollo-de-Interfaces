@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.recuperacion.carmanager.controller.MainController"
+            styleClass="main-container">
+
+    <top>
+        <GridPane alignment="CENTER"
+                  hgap="12"
+                  styleClass="top-bar">
+
+            <padding>
+                <Insets top="12" right="20" bottom="12" left="20"/>
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="15"/>
+                <ColumnConstraints percentWidth="15"/>
+                <ColumnConstraints percentWidth="15"/>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="15"/>
+            </columnConstraints>
+
+            <Label text="Car Manager App"
+                   styleClass="nav-title"
+                   GridPane.columnIndex="0"/>
+
+            <Button text="Coches"
+                    onAction="#handleShowCars"
+                    maxWidth="Infinity"
+                    styleClass="nav-button"
+                    GridPane.columnIndex="1"/>
+
+            <Button text="Usuarios"
+                    onAction="#handleShowUsers"
+                    maxWidth="Infinity"
+                    styleClass="nav-button"
+                    GridPane.columnIndex="2"/>
+
+            <Button text="Cerrar sesión"
+                    onAction="#handleLogout"
+                    maxWidth="Infinity"
+                    styleClass="logout-button"
+                    GridPane.columnIndex="4"/>
+        </GridPane>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="12">
+            <Label text="Panel principal" styleClass="title-label"/>
+            <Label fx:id="contentLabel"
+                   text="TODO CarView UserView"
+                   styleClass="subtitle-label"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" styleClass="footer-bar">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+
+            <Label text="Proyecto de recuperación de Desarrollo de Interfaces"
+                   styleClass="footer-label"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

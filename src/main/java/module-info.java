@@ -4,6 +4,8 @@ module com.recuperacion.carmanager {
     requires java.sql;
 
     opens com.recuperacion.carmanager to javafx.fxml;
+    opens com.recuperacion.carmanager.controller to javafx.fxml;
 
     exports com.recuperacion.carmanager;
+    exports com.recuperacion.carmanager.controller;
 }
