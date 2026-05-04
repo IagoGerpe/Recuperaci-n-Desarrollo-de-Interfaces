@@ -8,4 +8,7 @@ module com.recuperacion.carmanager {
 
     exports com.recuperacion.carmanager;
     exports com.recuperacion.carmanager.controller;
+    exports com.recuperacion.carmanager.utils;
+    exports com.recuperacion.carmanager.dao;
+    exports com.recuperacion.carmanager.model;
 }

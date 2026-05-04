@@ -19,24 +19,32 @@
     </padding>
 
     <Label text="Registro de usuario" styleClass="title-label"/>
+    <Label text="Crea una cuenta para acceder a la aplicación" styleClass="subtitle-label"/>
 
-    <TextField promptText="Nombre de usuario"
+    <TextField fx:id="usernameField"
+               promptText="Nombre de usuario"
                maxWidth="280"
                styleClass="form-field"/>
 
-    <TextField promptText="Email"
+    <TextField fx:id="emailField"
+               promptText="Email"
                maxWidth="280"
                styleClass="form-field"/>
 
-    <PasswordField promptText="Contraseña"
+    <PasswordField fx:id="passwordField"
+                   promptText="Contraseña"
                    maxWidth="280"
                    styleClass="form-field"/>
 
-    <PasswordField promptText="Confirmar contraseña"
+    <PasswordField fx:id="checkPasswordField"
+                   promptText="Repetir contraseña"
                    maxWidth="280"
                    styleClass="form-field"/>
+
+    <Label fx:id="messageLabel" styleClass="error-label"/>
 
     <Button text="Registrar usuario"
+            onAction="#handleRegister"
             maxWidth="280"
             styleClass="primary-button"/>
 
