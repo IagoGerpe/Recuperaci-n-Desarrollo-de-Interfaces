@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
@@ -24,14 +25,13 @@
             </padding>
 
             <columnConstraints>
-                <ColumnConstraints percentWidth="15"/>
-                <ColumnConstraints percentWidth="15"/>
-                <ColumnConstraints percentWidth="15"/>
                 <ColumnConstraints percentWidth="40"/>
-                <ColumnConstraints percentWidth="15"/>
+                <ColumnConstraints percentWidth="20"/>
+                <ColumnConstraints percentWidth="20"/>
+                <ColumnConstraints percentWidth="20"/>
             </columnConstraints>
 
-            <Label text="Car Manager"
+            <Label text="Car Manager App"
                    styleClass="nav-title"
                    GridPane.columnIndex="0"/>
 
@@ -52,16 +52,28 @@
                     onAction="#handleLogout"
                     maxWidth="Infinity"
                     styleClass="logout-button"
-                    GridPane.columnIndex="4"/>
+                    GridPane.columnIndex="3"/>
         </GridPane>
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="12">
-            <Label text="Panel principal" styleClass="title-label"/>
-            <Label fx:id="contentLabel"
-                   text="TODO CarView UserView"
-                   styleClass="subtitle-label"/>
+        <VBox spacing="16"
+              styleClass="main-center-container">
+
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24"/>
+            </padding>
+
+            <Label fx:id="welcomeLabel"
+                   text="Bienvenido"
+                   maxWidth="Infinity"
+                   alignment="CENTER"
+                   styleClass="welcome-main-label"/>
+
+            <StackPane fx:id="contentPane"
+                       VBox.vgrow="ALWAYS"
+                       styleClass="main-content-pane"/>
+
         </VBox>
     </center>
 

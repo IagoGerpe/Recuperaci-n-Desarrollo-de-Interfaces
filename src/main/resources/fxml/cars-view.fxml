@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.recuperacion.carmanager.controller.CarsController"
+            styleClass="content-view">
+
+    <top>
+        <VBox spacing="12" styleClass="content-header">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+
+            <Label text="Coches disponibles" styleClass="section-title-label"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="typeFilterComboBox"
+                          promptText="Filtrar por tipo"
+                          prefWidth="220"
+                          styleClass="form-field"/>
+
+                <Button text="Filtrar"
+                        onAction="#handleFilterCars"
+                        styleClass="primary-button"/>
+
+                <Button text="Limpiar"
+                        onAction="#handleClearFilter"
+                        styleClass="secondary-button"/>
+            </HBox>
+
+            <Label fx:id="messageLabel" styleClass="info-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true"
+                    styleClass="cars-scroll-pane">
+            <content>
+                <TilePane fx:id="carsTilePane"
+                          hgap="18"
+                          vgap="18"
+                          prefColumns="3"
+                          styleClass="cars-tile-pane">
+                    <padding>
+                        <Insets top="20" right="24" bottom="24" left="24"/>
+                    </padding>
+                </TilePane>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

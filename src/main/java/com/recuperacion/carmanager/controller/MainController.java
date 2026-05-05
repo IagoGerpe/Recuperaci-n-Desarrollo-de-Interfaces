@@ -5,8 +5,14 @@ import com.recuperacion.carmanager.model.User;
 import com.recuperacion.carmanager.utils.Session;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MainController {
 
@@ -17,22 +23,30 @@ public class MainController {
     private Button usersButton;
 
     @FXML
+    private Label welcomeLabel;
+
+    @FXML
+    private StackPane contentPane;
+
+    @FXML
     private void initialize() {
         User currentUser = Session.getCurrentUser();
 
         if (currentUser != null) {
-            contentLabel.setText("Bienvenido, " + currentUser.getUsername());
+            welcomeLabel.setText("Bienvenido, " + currentUser.getUsername());
         }
 
-        if (Session.isAdmin()) {
-            usersButton.setVisible(true);
-            usersButton.setManaged(true);
-        }
+        boolean isAdmin = Session.isAdmin();
+
+        usersButton.setVisible(isAdmin);
+        usersButton.setManaged(isAdmin);
+
+        loadView("/fxml/cars-view.fxml");
     }
 
     @FXML
     private void handleShowCars() {
-        contentLabel.setText("CarView");
+        loadView("/fxml/cars-view.fxml");
     }
 
     @FXML
@@ -42,6 +56,33 @@ public class MainController {
 
     @FXML
     private void handleLogout() {
+        Session.clear();
         AppShell.showLoginView();
+    }
+
+    private void showMessage(String message) {
+        Label label = new Label(message);
+        label.getStyleClass().add("subtitle-label");
+
+        contentPane.getChildren().setAll(label);
+    }
+
+    private void loadView(String fxmlPath) {
+        try {
+            URL fxmlUrl = MainController.class.getResource(fxmlPath);
+
+            if (fxmlUrl == null) {
+                throw new IllegalStateException("No se encontró la vista: " + fxmlPath);
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent view = loader.load();
+
+            contentPane.getChildren().setAll(view);
+
+        } catch (IOException exception) {
+            showMessage("No se pudo cargar la vista.");
+            System.out.println("Error al cargar la vista " + fxmlPath + ": " + exception.getMessage());
+        }
     }
 }

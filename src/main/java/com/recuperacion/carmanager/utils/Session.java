@@ -24,7 +24,9 @@ public class Session {
     }
 
     public static boolean isAdmin() {
-        return Objects.equals(currentUser.getRole(), "admin");
+        return currentUser != null
+                && currentUser.getRole() != null
+                && "admin".equalsIgnoreCase(currentUser.getRole());
     }
 
     public static void clear() {

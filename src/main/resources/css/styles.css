@@ -124,4 +124,110 @@
 .footer-label {
     -fx-font-size: 12px;
     -fx-text-fill: #065f46;
+
+.nav-user-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #d1fae5;
+    -fx-font-weight: bold;
+}
+
+.main-content-pane {
+    -fx-background-color: #ecfdf5;
+}
+
+.content-view {
+    -fx-background-color: #ecfdf5;
+}
+
+.content-header {
+    -fx-background-color: #dcfce7;
+    -fx-border-color: #bbf7d0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.section-title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #064e3b;
+}
+
+.section-subtitle-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #166534;
+}
+
+.cars-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.cars-tile-pane {
+    -fx-background-color: #ecfdf5;
+}
+
+.car-card {
+    -fx-background-color: #f0fdf4;
+    -fx-border-color: #86efac;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(6, 78, 59, 0.18), 12, 0.2, 0, 4);
+}
+
+.car-card:hover {
+    -fx-border-color: #16a34a;
+    -fx-background-color: #dcfce7;
+}
+
+.car-card-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #064e3b;
+}
+
+.car-card-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #166534;
+}
+
+.car-card-muted-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #047857;
+}
+
+.main-center-container {
+    -fx-background-color: #ecfdf5;
+}
+
+.welcome-main-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #064e3b;
+    -fx-alignment: center;
+    -fx-padding: 10 0 6 0;
+}
+
+.car-image-container {
+    -fx-background-color: #dcfce7;
+    -fx-border-color: #bbf7d0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 8;
+}
+
+.car-image-placeholder {
+    -fx-font-size: 12px;
+    -fx-text-fill: #047857;
+    -fx-font-style: italic;
+}
+
+.car-card {
+    -fx-background-color: #f0fdf4;
+    -fx-border-color: #86efac;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(6, 78, 59, 0.18), 12, 0.2, 0, 4);
+}
 }
