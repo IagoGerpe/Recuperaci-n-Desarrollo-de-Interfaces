@@ -3,9 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
@@ -16,12 +21,90 @@
             styleClass="content-view">
 
     <top>
-        <VBox spacing="12" styleClass="content-header">
+        <VBox spacing="10" styleClass="content-header">
             <padding>
-                <Insets top="20" right="24" bottom="12" left="24"/>
+                <Insets top="18" right="24" bottom="14" left="24"/>
             </padding>
 
             <Label text="Coches disponibles" styleClass="section-title-label"/>
+
+            <TitledPane fx:id="adminPanel"
+                        text="Gestión de coches"
+                        expanded="false"
+                        styleClass="admin-compact-panel">
+
+                <content>
+                    <VBox spacing="10" styleClass="admin-compact-content">
+                        <GridPane hgap="8" vgap="8">
+
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="18"/>
+                                <ColumnConstraints percentWidth="18"/>
+                                <ColumnConstraints percentWidth="14"/>
+                                <ColumnConstraints percentWidth="20"/>
+                                <ColumnConstraints percentWidth="30"/>
+                            </columnConstraints>
+
+                            <TextField fx:id="brandField"
+                                       promptText="Marca"
+                                       maxWidth="Infinity"
+                                       styleClass="compact-form-field"
+                                       GridPane.columnIndex="0"
+                                       GridPane.rowIndex="0"/>
+
+                            <TextField fx:id="modelField"
+                                       promptText="Modelo"
+                                       maxWidth="Infinity"
+                                       styleClass="compact-form-field"
+                                       GridPane.columnIndex="1"
+                                       GridPane.rowIndex="0"/>
+
+                            <TextField fx:id="horsePowerField"
+                                       promptText="CV"
+                                       maxWidth="Infinity"
+                                       styleClass="compact-form-field"
+                                       GridPane.columnIndex="2"
+                                       GridPane.rowIndex="0"/>
+
+                            <TextField fx:id="carTypeField"
+                                       promptText="Tipo"
+                                       maxWidth="Infinity"
+                                       styleClass="compact-form-field"
+                                       GridPane.columnIndex="3"
+                                       GridPane.rowIndex="0"/>
+
+                            <DatePicker fx:id="registrationDatePicker"
+                                        promptText="Fecha"
+                                        maxWidth="Infinity"
+                                        styleClass="compact-form-field"
+                                        GridPane.columnIndex="4"
+                                        GridPane.rowIndex="0"/>
+
+                            <TextField fx:id="imagePathField"
+                                       promptText="Ruta imagen: images/rayo-mcqueen.png"
+                                       maxWidth="Infinity"
+                                       styleClass="compact-form-field"
+                                       GridPane.columnIndex="0"
+                                       GridPane.rowIndex="1"
+                                       GridPane.columnSpan="5"/>
+                        </GridPane>
+
+                        <HBox spacing="8" alignment="CENTER_RIGHT">
+                            <Button fx:id="saveCarButton"
+                                    text="Crear coche"
+                                    onAction="#handleSaveCar"
+                                    styleClass="primary-button"/>
+
+                            <Button fx:id="cancelEditButton"
+                                    text="Cancelar edición"
+                                    onAction="#handleCancelEdit"
+                                    visible="false"
+                                    managed="false"
+                                    styleClass="secondary-button"/>
+                        </HBox>
+                    </VBox>
+                </content>
+            </TitledPane>
 
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <ComboBox fx:id="typeFilterComboBox"

@@ -17,9 +17,6 @@ import java.net.URL;
 public class MainController {
 
     @FXML
-    private Label contentLabel;
-
-    @FXML
     private Button usersButton;
 
     @FXML
@@ -51,20 +48,18 @@ public class MainController {
 
     @FXML
     private void handleShowUsers() {
-        contentLabel.setText("UserView");
+        if (!Session.isAdmin()) {
+            showMessage("No tienes permisos para acceder a la gestión de usuarios.");
+            return;
+        }
+
+        loadView("/fxml/user-view.fxml");
     }
 
     @FXML
     private void handleLogout() {
         Session.clear();
         AppShell.showLoginView();
-    }
-
-    private void showMessage(String message) {
-        Label label = new Label(message);
-        label.getStyleClass().add("subtitle-label");
-
-        contentPane.getChildren().setAll(label);
     }
 
     private void loadView(String fxmlPath) {
@@ -84,5 +79,12 @@ public class MainController {
             showMessage("No se pudo cargar la vista.");
             System.out.println("Error al cargar la vista " + fxmlPath + ": " + exception.getMessage());
         }
+    }
+
+    private void showMessage(String message) {
+        Label label = new Label(message);
+        label.getStyleClass().add("subtitle-label");
+
+        contentPane.getChildren().setAll(label);
     }
 }

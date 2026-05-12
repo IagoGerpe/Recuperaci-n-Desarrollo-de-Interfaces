@@ -104,4 +104,81 @@ public class CarDAO {
 
         return carTypes;
     }
+    public boolean save(Car car) {
+        String sql = """
+                INSERT INTO cars (brand, model, horse_power, car_type, registration_date, image_path)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """;
+
+        try (
+                Connection connection = Database.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        )
+        {
+            statement.setString(1, car.getBrand());
+            statement.setString(2, car.getModel());
+            statement.setInt(3, car.getHorsePower());
+            statement.setString(4, car.getCarType());
+            statement.setDate(5, Date.valueOf(car.getRegistrationDate()));
+            statement.setString(6, car.getImagePath());
+
+            return statement.executeUpdate() > 0;
+
+        } catch (SQLException exception) {
+            System.out.println("Error al guarda+r el coche: " + exception.getMessage());
+            return false;
+        }
+
+    }
+
+    public boolean update(Car car) {
+        String sql = """
+                UPDATE cars
+                SET brand = ?,
+                    model = ?,
+                    horse_power = ?,
+                    car_type = ?,
+                    registration_date = ?,
+                    image_path = ?
+                WHERE id = ?
+                """;
+
+        try (
+                Connection connection = Database.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, car.getBrand());
+            statement.setString(2, car.getModel());
+            statement.setInt(3, car.getHorsePower());
+            statement.setString(4, car.getCarType());
+            statement.setDate(5, Date.valueOf(car.getRegistrationDate()));
+            statement.setString(6, car.getImagePath());
+            statement.setInt(7, car.getId());
+
+            return statement.executeUpdate() > 0;
+
+        } catch (SQLException exception) {
+            System.out.println("Error al actualizar el coche: " + exception.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteById(int carId) {
+        String sql = "DELETE FROM cars WHERE id = ?";
+
+        try (
+                Connection connection = Database.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, carId);
+
+            return statement.executeUpdate() > 0;
+
+        } catch (SQLException exception) {
+            System.out.println("Error al eliminar el coche: " + exception.getMessage());
+            return false;
+        }
+    }
+
+
 }
