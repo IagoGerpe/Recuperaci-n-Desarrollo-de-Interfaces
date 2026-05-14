@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.recuperacion.carmanager.controller.LeaderboardController"
+            styleClass="content-view">
+
+    <top>
+        <VBox spacing="8" styleClass="leaderboard-header">
+            <padding>
+                <Insets top="18" right="24" bottom="14" left="24"/>
+            </padding>
+
+            <Label text="Clasificacion"
+                   maxWidth="Infinity"
+                   alignment="CENTER"
+                   styleClass="leaderboard-title-label"/>
+
+            <Label fx:id="messageLabel"
+                   maxWidth="Infinity"
+                   alignment="CENTER"
+                   styleClass="info-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="leaderboard-scroll-pane">
+            <content>
+                <VBox spacing="12" styleClass="leaderboard-container">
+                    <padding>
+                        <Insets top="20" right="44" bottom="32" left="44"/>
+                    </padding>
+
+                    <VBox fx:id="leaderboardRowsBox" spacing="12"/>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

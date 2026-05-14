@@ -5,6 +5,7 @@ module com.recuperacion.carmanager {
 
     opens com.recuperacion.carmanager to javafx.fxml;
     opens com.recuperacion.carmanager.controller to javafx.fxml;
+    opens com.recuperacion.carmanager.model to javafx.base;
 
     exports com.recuperacion.carmanager;
     exports com.recuperacion.carmanager.controller;

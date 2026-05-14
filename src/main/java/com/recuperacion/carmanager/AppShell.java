@@ -22,18 +22,19 @@ public final class AppShell {
         primaryStage = stage;
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(500);
+        primaryStage.setMaximized(true);
     }
 
     public static void showLoginView() {
-        setScene("/fxml/login-view.fxml", "Login --- Car Manager App");
+        setScene("/fxml/login-view.fxml", "Login - Car Manager App");
     }
 
     public static void showRegisterView() {
-        setScene("/fxml/register-view.fxml", "Registro --- Car Manager App");
+        setScene("/fxml/register-view.fxml", "Registro - Car Manager App");
     }
 
     public static void showMainView() {
-        setScene("/fxml/main-view.fxml", "Car Manager App"      );
+        setScene("/fxml/main-view.fxml", "Car Manager App");
     }
 
     private static void setScene(String fxmlPath, String title) {
@@ -54,6 +55,7 @@ public final class AppShell {
 
             primaryStage.setTitle(title);
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
 
         } catch (IOException exception) {

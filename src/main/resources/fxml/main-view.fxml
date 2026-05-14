@@ -25,10 +25,11 @@
             </padding>
 
             <columnConstraints>
-                <ColumnConstraints percentWidth="40"/>
-                <ColumnConstraints percentWidth="20"/>
-                <ColumnConstraints percentWidth="20"/>
-                <ColumnConstraints percentWidth="20"/>
+                <ColumnConstraints percentWidth="34"/>
+                <ColumnConstraints percentWidth="16"/>
+                <ColumnConstraints percentWidth="18"/>
+                <ColumnConstraints percentWidth="16"/>
+                <ColumnConstraints percentWidth="16"/>
             </columnConstraints>
 
             <Label text="Car Manager App"
@@ -41,18 +42,24 @@
                     styleClass="nav-button"
                     GridPane.columnIndex="1"/>
 
+            <Button text="Clasificación"
+                    onAction="#handleShowLeaderboard"
+                    maxWidth="Infinity"
+                    styleClass="nav-button"
+                    GridPane.columnIndex="2"/>
+
             <Button fx:id="usersButton"
                     text="Usuarios"
                     onAction="#handleShowUsers"
                     maxWidth="Infinity"
                     styleClass="nav-button"
-                    GridPane.columnIndex="2"/>
+                    GridPane.columnIndex="3"/>
 
             <Button text="Cerrar sesión"
                     onAction="#handleLogout"
                     maxWidth="Infinity"
                     styleClass="logout-button"
-                    GridPane.columnIndex="3"/>
+                    GridPane.columnIndex="4"/>
         </GridPane>
     </top>
 

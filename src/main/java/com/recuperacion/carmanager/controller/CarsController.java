@@ -2,7 +2,9 @@ package com.recuperacion.carmanager.controller;
 
 import com.recuperacion.carmanager.dao.CarDAO;
 import com.recuperacion.carmanager.model.Car;
+import com.recuperacion.carmanager.model.User;
 import com.recuperacion.carmanager.utils.Session;
+import com.recuperacion.carmanager.dao.FavoritoDAO;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -28,8 +30,11 @@ import java.time.LocalDate;
 public class CarsController {
 
     private final CarDAO carDAO = new CarDAO();
+    private final FavoritoDAO favoriteDAO = new FavoritoDAO();
 
     private Car selectedCar;
+    private int currentUserFavoriteCarId = -1;
+    private int mostFavoriteCarId = -1;
 
     @FXML
     private TitledPane adminPanel;
@@ -187,6 +192,7 @@ public class CarsController {
     }
 
     private void showCars(List<Car> cars) {
+        refreshFavoriteInformation();
         carsTilePane.getChildren().clear();
 
         for (Car car : cars) {
@@ -195,13 +201,36 @@ public class CarsController {
         }
     }
 
+    private void refreshFavoriteInformation() {
+        User currentUser = Session.getCurrentUser();
+
+        if (currentUser != null) {
+            currentUserFavoriteCarId = favoriteDAO.findFavoriteCarIdByUserId(currentUser.getId());
+        } else {
+            currentUserFavoriteCarId = -1;
+        }
+
+        mostFavoriteCarId = favoriteDAO.findMostFavoriteCarId();
+    }
+
     private VBox createCarCard(Car car) {
         VBox card = new VBox();
         card.setSpacing(8);
         card.setPadding(new Insets(16));
         card.setPrefWidth(230);
-        card.setMinHeight(300);
+        card.setMinHeight(340);
         card.getStyleClass().add("car-card");
+
+        boolean isUserFavorite = car.getId() == currentUserFavoriteCarId;
+        boolean isMostFavorite = car.getId() == mostFavoriteCarId;
+
+        if (isUserFavorite && isMostFavorite) {
+            card.getStyleClass().add("favorite-and-most-card");
+        } else if (isUserFavorite) {
+            card.getStyleClass().add("favorite-car-card");
+        } else if (isMostFavorite) {
+            card.getStyleClass().add("most-favorite-car-card");
+        }
 
         Node carImage = createCarImage(car.getImagePath());
 
@@ -217,12 +246,18 @@ public class CarsController {
         Label registrationLabel = new Label("Matrícula: " + car.getRegistrationDate());
         registrationLabel.getStyleClass().add("car-card-text");
 
+        HBox badgesBox = createFavoriteIcons(car, isUserFavorite, isMostFavorite);
+
+        Button favoriteButton = createFavoriteButton(car, isUserFavorite);
+
         card.getChildren().addAll(
                 carImage,
                 titleLabel,
+                badgesBox,
                 typeLabel,
                 powerLabel,
-                registrationLabel
+                registrationLabel,
+                favoriteButton
         );
 
         if (Session.isAdmin()) {
@@ -373,5 +408,62 @@ public class CarsController {
                 : "/" + imagePath;
 
         return CarsController.class.getResource(normalizedPath);
+    }
+
+    private HBox createFavoriteIcons(Car car, boolean isUserFavorite, boolean isMostFavorite) {
+        HBox badgesBox = new HBox(6);
+        badgesBox.setAlignment(Pos.CENTER_LEFT);
+
+        if (isUserFavorite) {
+            Label userFavoriteLabel = new Label("Tu favorito");
+            userFavoriteLabel.getStyleClass().add("favorite-icon");
+            badgesBox.getChildren().add(userFavoriteLabel);
+        }
+
+        if (isMostFavorite) {
+            int totalFavorites = favoriteDAO.countFavoritesByCarId(car.getId());
+
+            Label mostFavoriteLabel = new Label("Más elegido (" + totalFavorites + ")");
+            mostFavoriteLabel.getStyleClass().add("most-favorite-icon");
+            badgesBox.getChildren().add(mostFavoriteLabel);
+        }
+
+        return badgesBox;
+    }
+
+    private Button createFavoriteButton(Car car, boolean isUserFavorite) {
+        Button favoriteButton = new Button();
+
+        if (isUserFavorite) {
+            favoriteButton.setText("Favorito actual");
+            favoriteButton.setDisable(true);
+            favoriteButton.getStyleClass().add("favorite-current-button");
+        } else {
+            favoriteButton.setText("Marcar favorito");
+            favoriteButton.getStyleClass().add("favorite-button");
+            favoriteButton.setOnAction(event -> markCarAsFavorite(car));
+        }
+
+        favoriteButton.setMaxWidth(Double.MAX_VALUE);
+
+        return favoriteButton;
+    }
+
+    private void markCarAsFavorite(Car car) {
+        User currentUser = Session.getCurrentUser();
+
+        if (currentUser == null) {
+            messageLabel.setText("Debes iniciar sesión para marcar favoritos.");
+            return;
+        }
+
+        boolean updated = favoriteDAO.setFavoriteCar(currentUser.getId(), car.getId());
+
+        if (updated) {
+            messageLabel.setText("Has marcado como favorito: " + car.getFullName());
+            loadCars();
+        } else {
+            messageLabel.setText("No se pudo marcar el coche como favorito.");
+        }
     }
 }

@@ -57,6 +57,11 @@ public class MainController {
     }
 
     @FXML
+    private void handleShowLeaderboard() {
+        loadView("/fxml/leaderboard-view.fxml");
+    }
+
+    @FXML
     private void handleLogout() {
         Session.clear();
         AppShell.showLoginView();
