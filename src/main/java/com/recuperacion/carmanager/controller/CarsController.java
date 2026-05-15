@@ -27,6 +27,13 @@ import java.net.URL;
 import java.util.List;
 import java.time.LocalDate;
 
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+
+
 public class CarsController {
 
     private final CarDAO carDAO = new CarDAO();
@@ -71,6 +78,9 @@ public class CarsController {
 
     @FXML
     private Label messageLabel;
+
+    @FXML
+    private BorderPane cars;
 
     @FXML
     private void initialize() {
@@ -233,6 +243,8 @@ public class CarsController {
         }
 
         Node carImage = createCarImage(car.getImagePath());
+        carImage.setCursor(Cursor.HAND);
+        carImage.setOnMouseClicked(event -> openCarDetails(car));
 
         Label titleLabel = new Label(car.getFullName());
         titleLabel.getStyleClass().add("car-card-title");
@@ -464,6 +476,31 @@ public class CarsController {
             loadCars();
         } else {
             messageLabel.setText("No se pudo marcar el coche como favorito.");
+        }
+    }
+
+    private void openCarDetails(Car car) {
+        try {
+            URL fxmlUrl = CarsController.class.getResource("/fxml/car-details-view.fxml");
+
+            if (fxmlUrl == null) {
+                throw new IllegalStateException("No se encontró la vista de detalle del coche.");
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent detailView = loader.load();
+
+            CarDetailsController controller = loader.getController();
+            controller.setCar(car);
+
+            if (cars.getParent() instanceof StackPane) {
+                StackPane contentPane = (StackPane) cars.getParent();
+                contentPane.getChildren().setAll(detailView);
+            }
+
+        } catch (Exception exception) {
+            messageLabel.setText("No se pudo abrir el detalle del coche.");
+            System.out.println("Error al abrir detalle del coche: " + exception.getMessage());
         }
     }
 }

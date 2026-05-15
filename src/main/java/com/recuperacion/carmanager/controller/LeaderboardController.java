@@ -1,6 +1,9 @@
 package com.recuperacion.carmanager.controller;
 
+import com.recuperacion.carmanager.model.Leaderboard;
 import com.recuperacion.carmanager.dao.FavoritoDAO;
+import com.recuperacion.carmanager.model.Car;
+import com.recuperacion.carmanager.dao.CarDAO;
 import com.recuperacion.carmanager.model.Leaderboard;
 
 import javafx.fxml.FXML;
@@ -12,6 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.List;
@@ -19,6 +26,10 @@ import java.util.List;
 public class LeaderboardController {
 
     private final FavoritoDAO favoritoDAO = new FavoritoDAO();
+    private final CarDAO carDAO = new CarDAO();
+
+    @FXML
+    private BorderPane leaderboard;
 
     @FXML
     private VBox leaderboardRowsBox;
@@ -46,13 +57,15 @@ public class LeaderboardController {
             leaderboardRowsBox.getChildren().add(row);
         }
 
-        messageLabel.setText("Mostrando " + entries.size() + " coches en la clasificaciónn.");
+        messageLabel.setText("Mostrando " + entries.size() + " coches en la clasificación.");
     }
 
     private HBox createLeaderboardRow(Leaderboard entry) {
         HBox row = new HBox(18);
         row.setAlignment(Pos.CENTER_LEFT);
         row.getStyleClass().add("leaderboard-row");
+        row.setCursor(Cursor.HAND);
+        row.setOnMouseClicked(event -> openCarDetails(entry));
 
         if (entry.getPosition() == 1) {
             row.getStyleClass().add("leaderboard-first-row");
@@ -112,5 +125,39 @@ public class LeaderboardController {
                 : "/" + imagePath;
 
         return LeaderboardController.class.getResource(normalizedPath);
+    }
+
+    private void openCarDetails(Leaderboard entry) {
+        try {
+            Car car = carDAO.findById(entry.getCarId());
+
+            if (car == null) {
+                messageLabel.setText("No se pudo encontrar el coche seleccionado.");
+                return;
+            }
+
+            URL fxmlUrl = LeaderboardController.class.getResource("/fxml/car-details-view.fxml");
+
+            if (fxmlUrl == null) {
+                throw new IllegalStateException("No se encontró la vista de detalle del coche.");
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent detailView = loader.load();
+
+            CarDetailsController controller = loader.getController();
+            controller.setCar(car);
+
+            if (leaderboard.getParent() instanceof StackPane) {
+                StackPane contentPane = (StackPane) leaderboard.getParent();
+                contentPane.getChildren().setAll(detailView);
+            } else {
+                throw new IllegalStateException("No se pudo localizar el contenedor principal.");
+            }
+
+        } catch (Exception exception) {
+            messageLabel.setText("No se pudo abrir el detalle del coche.");
+            System.out.println("Error al abrir detalle desde clasificación: " + exception.getMessage());
+        }
     }
 }

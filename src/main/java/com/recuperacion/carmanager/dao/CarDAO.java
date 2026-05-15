@@ -180,5 +180,31 @@ public class CarDAO {
         }
     }
 
+    public Car findById(int carId) {
+        String sql = """
+            SELECT id, brand, model, horse_power, car_type, registration_date, image_path
+            FROM cars
+            WHERE id = ?
+            """;
+
+        try (
+                Connection connection = Database.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, carId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapResultSetToCar(resultSet);
+                }
+            }
+
+        } catch (SQLException exception) {
+            System.out.println("Error al buscar el coche por id: " + exception.getMessage());
+        }
+
+        return null;
+    }
+
 
 }

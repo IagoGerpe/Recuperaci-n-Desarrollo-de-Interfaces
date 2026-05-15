@@ -1,17 +1,17 @@
 package com.recuperacion.carmanager;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 
 public final class AppShell {
-
-    private static final double DEFAULT_WIDTH = 900;
-    private static final double DEFAULT_HEIGHT = 550;
 
     private static Stage primaryStage;
 
@@ -20,9 +20,8 @@ public final class AppShell {
 
     public static void initialize(Stage stage) {
         primaryStage = stage;
-        primaryStage.setMinWidth(800);
+        primaryStage.setMinWidth(900);
         primaryStage.setMinHeight(500);
-        primaryStage.setMaximized(true);
     }
 
     public static void showLoginView() {
@@ -50,17 +49,36 @@ public final class AppShell {
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Parent root = loader.load();
 
-            Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+            Scene scene = new Scene(root, visualBounds.getWidth(), visualBounds.getHeight());
             addStylesheet(scene);
 
             primaryStage.setTitle(title);
             primaryStage.setScene(scene);
-            primaryStage.setMaximized(true);
             primaryStage.show();
+
+            maximizeStage();
+
+            Platform.runLater(AppShell::maximizeStage);
 
         } catch (IOException exception) {
             throw new RuntimeException("No se pudo cargar la vista: " + fxmlPath, exception);
         }
+    }
+
+    private static void maximizeStage() {
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+
+        primaryStage.setIconified(false);
+        primaryStage.setFullScreen(false);
+        primaryStage.setMaximized(false);
+
+        primaryStage.setX(visualBounds.getMinX());
+        primaryStage.setY(visualBounds.getMinY());
+        primaryStage.setWidth(visualBounds.getWidth());
+        primaryStage.setHeight(visualBounds.getHeight());
+
+        primaryStage.setMaximized(true);
     }
 
     private static void addStylesheet(Scene scene) {

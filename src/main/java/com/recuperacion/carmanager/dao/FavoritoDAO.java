@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.recuperacion.carmanager.model.Leaderboard;
+import com.recuperacion.carmanager.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,5 +155,55 @@ public class FavoritoDAO {
         }
 
         return leaderboardEntries;
+    }
+
+    public int findRankingPositionByCarId(int carId) {
+        List<Leaderboard> entries = findLeaderboardEntries();
+
+        for (Leaderboard entry : entries) {
+            if (entry.getCarId() == carId) {
+                return entry.getPosition();
+            }
+        }
+
+        return -1;
+    }
+
+    public List<User> findUsersByFavoriteCarId(int carId) {
+        String sql = """
+            SELECT u.id, u.username, u.email, u.password, u.role
+            FROM users u
+            INNER JOIN favorites f ON f.user_id = u.id
+            WHERE f.car_id = ?
+            ORDER BY u.username
+            """;
+
+        List<User> users = new ArrayList<>();
+
+        try (
+                Connection connection = Database.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, carId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = new User(
+                            resultSet.getInt("id"),
+                            resultSet.getString("username"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password"),
+                            resultSet.getString("role")
+                    );
+
+                    users.add(user);
+                }
+            }
+
+        } catch (SQLException exception) {
+            System.out.println("Error al obtener usuarios favoritos del coche :" + exception.getMessage());
+        }
+
+        return users;
     }
 }

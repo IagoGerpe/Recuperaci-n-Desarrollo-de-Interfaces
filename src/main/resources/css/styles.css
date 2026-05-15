@@ -472,6 +472,8 @@
 .leaderboard-row:hover {
     -fx-background-color: #dcfce7;
     -fx-border-color: #16a34a;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }
 
 .leaderboard-first-row {
@@ -518,4 +520,82 @@
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-text-fill: #047857;
+}
+
+/* Detalle de coche */
+
+.car-detail-root {
+    -fx-background-color: #ecfdf5;
+}
+
+.car-detail-image-panel {
+    -fx-background-color: #dcfce7;
+    -fx-border-color: #86efac;
+    -fx-border-width: 0 1.5px 0 0;
+    -fx-padding: 28;
+    -fx-border-radius: 10;
+}
+
+.car-detail-placeholder-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #047857;
+}
+
+.car-detail-sidebar {
+    -fx-background-color: #064e3b;
+}
+
+.car-detail-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecfdf5;
+}
+
+.car-detail-section {
+    -fx-background-color: #f0fdf4;
+    -fx-background-radius: 14;
+    -fx-border-color: #86efac;
+    -fx-border-radius: 14;
+    -fx-padding: 14;
+}
+
+.car-detail-section-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #064e3b;
+}
+
+.car-detail-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #166534;
+}
+
+.car-detail-muted-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #047857;
+}
+
+.detail-users-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-max-height: 150px;
+}
+
+.detail-users-box {
+    -fx-background-color: transparent;
+}
+
+.detail-user-label {
+    -fx-background-color: #dcfce7;
+    -fx-background-radius: 8;
+    -fx-padding: 7 9 7 9;
+    -fx-font-size: 13px;
+    -fx-text-fill: #064e3b;
+}
+
+.detail-user-empty-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #047857;
+    -fx-font-style: italic;
 }
