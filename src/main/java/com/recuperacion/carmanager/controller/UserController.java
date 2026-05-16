@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
 
-public class UserController {
+public class UserController { //clase solo accesible para administradores (espero). Maneja la vista de gestión de usuarios
 
     private final UserDAO userDAO = new UserDAO();
 
@@ -48,7 +48,7 @@ public class UserController {
     private Label messageLabel;
 
     @FXML
-    private void initialize() {
+    private void initialize() { //método inicial, comprueba que el usuario que accede sea admin y carga la vista y su informacion
         if (!Session.isAdmin()) {
             messageLabel.setText("No tienes permisos para ver esta vista.");
             return;
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @FXML
-    private void handleFilterUsers() {
+    private void handleFilterUsers() { //método para filtrar a los usuarios por su email
         String emailFilter = emailFilterField.getText().trim();
 
         if (emailFilter.isBlank()) {
@@ -76,13 +76,13 @@ public class UserController {
     }
 
     @FXML
-    private void handleClearFilter() {
+    private void handleClearFilter() { //método que limpia el filtro del email
         emailFilterField.clear();
         loadUsers();
     }
 
     @FXML
-    private void handleChangeRole() {
+    private void handleChangeRole() { //método encargado de cambiar el rol de un usuario
         if (selectedUser == null) {
             messageLabel.setText("Selecciona un usuario primero.");
             return;
@@ -113,7 +113,7 @@ public class UserController {
     }
 
     @FXML
-    private void handleDeleteUser() {
+    private void handleDeleteUser() { //método encargado de borrar un usuario de la base de datos
         if (selectedUser == null) {
             messageLabel.setText("Selecciona un usuario primero.");
             return;
@@ -136,18 +136,18 @@ public class UserController {
         }
     }
 
-    private void configureTable() {
+    private void configureTable() { //este método conecta cada columna de la tabla con una propiedad de los usuarios
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
 
-    private void configureRoleComboBox() {
+    private void configureRoleComboBox() { //esto crea los roles disponibles en el seletor de roles
         roleComboBox.getItems().setAll("user", "admin");
     }
 
-    private void configureTableSelection() {
+    private void configureTableSelection() { //este método actualiza la combobox en caso de que cambiemos la selección de usuario
         usersTableView.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldUser, newUser) -> {
@@ -160,7 +160,7 @@ public class UserController {
                 });
     }
 
-    private void loadUsers() {
+    private void loadUsers() { //este método carga todos los usuarios de la base de datos
         List<User> users = userDAO.findAll();
         showUsers(users);
 
@@ -171,12 +171,12 @@ public class UserController {
         }
     }
 
-    private void showUsers(List<User> users) {
+    private void showUsers(List<User> users) { //este método recibe todos los usuarios en una lista y los coloca en la tabla
         ObservableList<User> observableUsers = FXCollections.observableArrayList(users);
         usersTableView.setItems(observableUsers);
     }
 
-    private boolean isCurrentUser(User user) {
+    private boolean isCurrentUser(User user) { //este método se utiliza para evitar que se borre o actualice el usuario que se está utilizando
         User currentUser = Session.getCurrentUser();
 
         return currentUser != null && currentUser.getId() == user.getId();

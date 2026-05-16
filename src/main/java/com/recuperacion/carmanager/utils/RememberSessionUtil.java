@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class RememberSessionUtil {
+public class RememberSessionUtil { //este método crea un txt que guarda la sesión de la ultima persona que se haya logeado
 
     private static final String SESSIONFOLDER = "src/main/resources/session";
     private static final String SESSIONFILE = "session.txt";
@@ -15,7 +15,7 @@ public class RememberSessionUtil {
     private RememberSessionUtil() {
     }
 
-    public static void saveRememberedUser(String username) {
+    public static void saveRememberedUser(String username) { //este metodo crea el txt con la persona que haya iniciado sesión
         try {
             Path sessionFolderPath = getSessionFolderPath();
             Path sessionFilePath = getSessionFilePath();
@@ -31,7 +31,7 @@ public class RememberSessionUtil {
         }
     }
 
-    public static User loadRememberedUser() {
+    public static User loadRememberedUser() { //este metodo carga el usuario guardado en el txt y salta la pantalla de login al ejecutar el programa
         Path sessionFilePath = getSessionFilePath();
 
         if (!Files.exists(sessionFilePath)) {
@@ -62,7 +62,7 @@ public class RememberSessionUtil {
         }
     }
 
-    public static void clearRememberedUser() {
+    public static void clearRememberedUser() { //borra el archivo de sesión cuando desmarquemos el checkbox
         try {
             Files.deleteIfExists(getSessionFilePath());
         } catch (IOException exception) {

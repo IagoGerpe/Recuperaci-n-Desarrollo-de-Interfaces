@@ -45,10 +45,10 @@ public class MainController {
     @FXML
     private void handleShowCars() {
         loadView("/fxml/cars-view.fxml");
-    }
+    } //para enseñar la vista de los coches
 
     @FXML
-    private void handleShowUsers() {
+    private void handleShowUsers() { //para ir a la pestaña de ususarios (solo admins)
         if (!Session.isAdmin()) {
             showMessage("No tienes permisos para acceder a la gestión de usuarios.");
             return;
@@ -58,18 +58,18 @@ public class MainController {
     }
 
     @FXML
-    private void handleShowLeaderboard() {
+    private void handleShowLeaderboard() { //para ir a la pestaña de clasificacion
         loadView("/fxml/leaderboard-view.fxml");
     }
 
     @FXML
-    private void handleLogout() {
+    private void handleLogout() { //cerrar sesion
         RememberSessionUtil.clearRememberedUser();
         Session.clear();
         AppShell.showLoginView();
     }
 
-    private void loadView(String fxmlPath) {
+    private void loadView(String fxmlPath) { //método central de navegación, cambia entre escenas recibiendo la ruta del fxml
         try {
             URL fxmlUrl = MainController.class.getResource(fxmlPath);
 
@@ -88,7 +88,7 @@ public class MainController {
         }
     }
 
-    private void showMessage(String message) {
+    private void showMessage(String message) { //método de crear un label utilizado para enseñar un mensaje en el contentpane
         Label label = new Label(message);
         label.getStyleClass().add("subtitle-label");
 

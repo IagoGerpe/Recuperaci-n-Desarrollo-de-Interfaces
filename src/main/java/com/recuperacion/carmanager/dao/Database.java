@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Database {
+public class Database { //Método básico para establecer la conexión con la base de datos
     
     private static final String URL =
             "jdbc:mysql://localhost:3306/recuperacion_di";

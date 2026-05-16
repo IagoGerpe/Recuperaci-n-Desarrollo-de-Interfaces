@@ -83,14 +83,14 @@ public class CarsController {
     private BorderPane cars;
 
     @FXML
-    private void initialize() {
+    private void initialize() { //este método se ejecuta nada más abrir la carsview
         configureAdminControls();
         loadCarTypes();
         loadCars();
     }
 
     @FXML
-    private void handleSaveCar() {
+    private void handleSaveCar() { //método encargado de guardar el coche en la base de datos al pulsar en el botón correspondiente
         if (!Session.isAdmin()) {
             messageLabel.setText("No tienes permisos para modificar coches.");
             return;
@@ -152,13 +152,13 @@ public class CarsController {
     }
 
     @FXML
-    private void handleCancelEdit() {
+    private void handleCancelEdit() { //simple metodo para cancelar la edicion
         clearCarForm();
         messageLabel.setText("Edición cancelada.");
     }
 
     @FXML
-    private void handleFilterCars() {
+    private void handleFilterCars() { //método para aplicar el filtro de coches en el buscador
         String selectedType = typeFilterComboBox.getValue();
 
         if (selectedType == null || selectedType.isBlank()) {
@@ -173,24 +173,24 @@ public class CarsController {
     }
 
     @FXML
-    private void handleClearFilter() {
+    private void handleClearFilter() { //método que limpia el filtro de coches
         typeFilterComboBox.setValue(null);
         loadCars();
     }
 
-    private void configureAdminControls() {
+    private void configureAdminControls() { //muestra las opciones de administrador en caso de que el usuario sea administrador
         boolean isAdmin = Session.isAdmin();
 
         adminPanel.setVisible(isAdmin);
         adminPanel.setManaged(isAdmin);
     }
 
-    private void loadCarTypes() {
+    private void loadCarTypes() { //carga los tipos de coches
         List<String> carTypes = carDAO.findAllCarTypes();
         typeFilterComboBox.getItems().setAll(carTypes);
     }
 
-    private void loadCars() {
+    private void loadCars() { //carga los coches de la base de datos y los muestra en la interfaz
         List<Car> cars = carDAO.findAll();
         showCars(cars);
 
@@ -201,7 +201,7 @@ public class CarsController {
         }
     }
 
-    private void showCars(List<Car> cars) {
+    private void showCars(List<Car> cars) { //este metodo muestra los paneles de los coches (las cards)
         refreshFavoriteInformation();
         carsTilePane.getChildren().clear();
 
@@ -211,7 +211,7 @@ public class CarsController {
         }
     }
 
-    private void refreshFavoriteInformation() {
+    private void refreshFavoriteInformation() { //este método lo uso para recargar la información de los favoritos a la hora de hacer cambios, así se actualiza en tiempo real
         User currentUser = Session.getCurrentUser();
 
         if (currentUser != null) {
@@ -223,7 +223,7 @@ public class CarsController {
         mostFavoriteCarId = favoriteDAO.findMostFavoriteCarId();
     }
 
-    private VBox createCarCard(Car car) {
+    private VBox createCarCard(Car car) { //este método lo utilizo para crea la card de cada coche individualemte y se encarga de añadir los css correspondientes
         VBox card = new VBox();
         card.setSpacing(8);
         card.setPadding(new Insets(16));
@@ -244,7 +244,7 @@ public class CarsController {
 
         Node carImage = createCarImage(car.getImagePath());
         carImage.setCursor(Cursor.HAND);
-        carImage.setOnMouseClicked(event -> openCarDetails(car));
+        carImage.setOnMouseClicked(event -> openCarDetails(car)); //esto permite abrir los detalles
 
         Label titleLabel = new Label(car.getFullName());
         titleLabel.getStyleClass().add("car-card-title");
@@ -280,7 +280,7 @@ public class CarsController {
         return card;
     }
 
-    private HBox createAdminButtons(Car car) {
+    private HBox createAdminButtons(Car car) { //crea los botones de administracion en las cards, el de editar y el de eliminar
         Button editButton = new Button("Editar");
         editButton.getStyleClass().add("small-secondary-button");
         editButton.setOnAction(event -> loadCarInForm(car));
@@ -296,7 +296,7 @@ public class CarsController {
         return buttonsBox;
     }
 
-    private void loadCarInForm(Car car) {
+    private void loadCarInForm(Car car) { //carga los datos de un coche en el formulario de edición cuando unadministrador pulse el botón de edicion
         if (!Session.isAdmin()) {
             messageLabel.setText("No tienes permisos para editar coches.");
             return;
@@ -319,7 +319,7 @@ public class CarsController {
         messageLabel.setText("Editando: " + car.getFullName());
     }
 
-    private void deleteCar(Car car) {
+    private void deleteCar(Car car) { //elimina un coche
         if (!Session.isAdmin()) {
             messageLabel.setText("No tienes permisos para eliminar coches.");
             return;
@@ -337,7 +337,7 @@ public class CarsController {
         }
     }
 
-    private boolean isCarFormValid() {
+    private boolean isCarFormValid() { //comprueba que a la hora de editar o crear un coche los datos sean validos
         if (brandField.getText().trim().isBlank()
                 || modelField.getText().trim().isBlank()
                 || horsePowerField.getText().trim().isBlank()
@@ -365,7 +365,7 @@ public class CarsController {
         return true;
     }
 
-    private void clearCarForm() {
+    private void clearCarForm() { //indica que ya no se está editando un coche y limpia el formulario
         selectedCar = null;
 
         brandField.clear();
@@ -382,7 +382,7 @@ public class CarsController {
         adminPanel.setExpanded(false);
     }
 
-    private Node createCarImage(String imagePath) {
+    private Node createCarImage(String imagePath) { //crea la imagen para la card, metodo que se usa después para simplificar el metodo de creacion de card
         StackPane imageContainer = new StackPane();
         imageContainer.setPrefSize(198, 120);
         imageContainer.getStyleClass().add("car-image-container");
@@ -410,7 +410,7 @@ public class CarsController {
         return imageContainer;
     }
 
-    private URL getImageUrl(String imagePath) {
+    private URL getImageUrl(String imagePath) { //convierte la ruta de la imagen a un formato legible por el fxxml
         if (imagePath == null || imagePath.isBlank()) {
             return null;
         }
@@ -422,7 +422,7 @@ public class CarsController {
         return CarsController.class.getResource(normalizedPath);
     }
 
-    private HBox createFavoriteIcons(Car car, boolean isUserFavorite, boolean isMostFavorite) {
+    private HBox createFavoriteIcons(Car car, boolean isUserFavorite, boolean isMostFavorite) { //crea el icono del coche con más votos
         HBox badgesBox = new HBox(6);
         badgesBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -443,7 +443,7 @@ public class CarsController {
         return badgesBox;
     }
 
-    private Button createFavoriteButton(Car car, boolean isUserFavorite) {
+    private Button createFavoriteButton(Car car, boolean isUserFavorite) { //crea el botón para indicar que es el favorito o seleccionarlo como favorito onclick
         Button favoriteButton = new Button();
 
         if (isUserFavorite) {
@@ -461,7 +461,7 @@ public class CarsController {
         return favoriteButton;
     }
 
-    private void markCarAsFavorite(Car car) {
+    private void markCarAsFavorite(Car car) { //gestiona el cambio de un coche a favorito de un usuario
         User currentUser = Session.getCurrentUser();
 
         if (currentUser == null) {
@@ -469,7 +469,7 @@ public class CarsController {
             return;
         }
 
-        boolean updated = favoriteDAO.setFavoriteCar(currentUser.getId(), car.getId());
+        boolean updated = favoriteDAO.setFavoriteCar(currentUser.getId(), car.getId()); //recuerda que aquí automaticamente se quita el ya seleccionado como favorito!!
 
         if (updated) {
             messageLabel.setText("Has marcado como favorito: " + car.getFullName());
@@ -479,7 +479,7 @@ public class CarsController {
         }
     }
 
-    private void openCarDetails(Car car) {
+    private void openCarDetails(Car car) { //abre el cardetails view
         try {
             URL fxmlUrl = CarsController.class.getResource("/fxml/car-details-view.fxml");
 

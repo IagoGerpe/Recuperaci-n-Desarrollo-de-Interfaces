@@ -30,7 +30,7 @@ public class RegisterController {
     private Label messageLabel;
 
     @FXML
-    private void handleRegister() {
+    private void handleRegister() { //se encarga de crear un usuario con los datos proporcionados
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText();
@@ -64,7 +64,7 @@ public class RegisterController {
         AppShell.showLoginView();
     }
 
-    private boolean isFormValid(String username, String email, String password, String checkPassword) {
+    private boolean isFormValid(String username, String email, String password, String checkPassword) { //comprueba que los datos tengan un formato valido
         if (username.isBlank() || email.isBlank() || password.isBlank() || checkPassword.isBlank()) {
             messageLabel.setText("Todos los campos son obligotorios.");
             return false;
@@ -108,7 +108,7 @@ public class RegisterController {
         return true;
     }
 
-    private boolean containsLetter(String text) {
+    private boolean containsLetter(String text) { //para que la contraseña tenga letas
         for (int i = 0; i < text.length(); i++) {
             if (Character.isLetter(text.charAt(i))) {
                 return true;
@@ -118,7 +118,7 @@ public class RegisterController {
         return false;
     }
 
-    private boolean containsNumber(String text) {
+    private boolean containsNumber(String text) { //para que la contraseña tenga numeros
         for (int i = 0; i < text.length(); i++) {
             if (Character.isDigit(text.charAt(i))) {
                 return true;
@@ -128,7 +128,7 @@ public class RegisterController {
         return false;
     }
 
-    private void clearFields() {
+    private void clearFields() { //para borrar los campos
         usernameField.clear();
         emailField.clear();
         passwordField.clear();

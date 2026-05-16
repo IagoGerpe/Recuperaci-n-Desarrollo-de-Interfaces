@@ -4,7 +4,6 @@ import com.recuperacion.carmanager.model.Leaderboard;
 import com.recuperacion.carmanager.dao.FavoritoDAO;
 import com.recuperacion.carmanager.model.Car;
 import com.recuperacion.carmanager.dao.CarDAO;
-import com.recuperacion.carmanager.model.Leaderboard;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -38,14 +37,14 @@ public class LeaderboardController {
     private Label messageLabel;
 
     @FXML
-    private void initialize() {
+    private void initialize() { //método inicial que carga la vista
         loadLeaderboard();
     }
 
-    private void loadLeaderboard() {
+    private void loadLeaderboard() { //este método carga la clasificación desde la base de datos para crear las filas
         List<Leaderboard> entries = favoritoDAO.findLeaderboardEntries();
 
-        leaderboardRowsBox.getChildren().clear();
+        leaderboardRowsBox.getChildren().clear(); //con esto evitamos que al cargarlo dos veces se duplique todo
 
         if (entries.isEmpty()) {
             messageLabel.setText("No hay coches registrados todavía.");
@@ -60,7 +59,7 @@ public class LeaderboardController {
         messageLabel.setText("Mostrando " + entries.size() + " coches en la clasificación.");
     }
 
-    private HBox createLeaderboardRow(Leaderboard entry) {
+    private HBox createLeaderboardRow(Leaderboard entry) { //método que crea cada fila de vehículo individualmente
         HBox row = new HBox(18);
         row.setAlignment(Pos.CENTER_LEFT);
         row.getStyleClass().add("leaderboard-row");
@@ -127,7 +126,7 @@ public class LeaderboardController {
         return LeaderboardController.class.getResource(normalizedPath);
     }
 
-    private void openCarDetails(Leaderboard entry) {
+    private void openCarDetails(Leaderboard entry) { //mismo metodo que en el carview, abre la pestaña de detalles
         try {
             Car car = carDAO.findById(entry.getCarId());
 

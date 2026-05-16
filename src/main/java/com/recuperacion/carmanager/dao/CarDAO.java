@@ -10,10 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarDAO {
+public class CarDAO {  //Clase encargada de acceder a la clase cars en la base de datos, proponiendo diferentes consultas necesarios
 
+    //Método que convierte cada fila de la tablaa en un objeto Car
     private Car mapResultSetToCar(ResultSet resultSet) throws SQLException {
-        Date registrationSqlDate = resultSet.getDate("registration_date");
+        Date registrationSqlDate = resultSet.getDate("registration_date"); //Interesa saber la fecha de la creación de los coches
 
         return new Car(
                 resultSet.getInt("id"),
@@ -26,6 +27,7 @@ public class CarDAO {
         );
     }
 
+    //Devuelve una lista con todos los objetos Car usando el metodo anterior
     public List<Car> findAll() {
         String sql = """
                 SELECT id, brand, model, horse_power, car_type, registration_date, image_path
@@ -51,6 +53,7 @@ public class CarDAO {
         return cars;
     }
 
+    //Método principal para los filtreos, permite encontrar según la característica type del coche
     public List<Car> findByType(String carType) {
         String sql = """
                 SELECT id, brand, model, horse_power, car_type, registration_date, image_path
@@ -65,7 +68,7 @@ public class CarDAO {
                 Connection connection = Database.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
-            statement.setString(1, carType);
+            statement.setString(1, carType); //Sustituye la "?" de la consulta por el tipo recibido
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -80,6 +83,7 @@ public class CarDAO {
         return cars;
     }
 
+    //Método para poder mostrar todos los tipos a la hora de filtrar en la combobox
     public List<String> findAllCarTypes() {
         String sql = """
                 SELECT DISTINCT car_type
@@ -104,6 +108,8 @@ public class CarDAO {
 
         return carTypes;
     }
+
+    //Método para los admins para crear un coche nuevoo
     public boolean save(Car car) {
         String sql = """
                 INSERT INTO cars (brand, model, horse_power, car_type, registration_date, image_path)
@@ -131,6 +137,7 @@ public class CarDAO {
 
     }
 
+    //Método para los admins para actualizar un cche existente
     public boolean update(Car car) {
         String sql = """
                 UPDATE cars
@@ -163,6 +170,7 @@ public class CarDAO {
         }
     }
 
+    //Método para los admins para borrar coches en base al id proporcionado
     public boolean deleteById(int carId) {
         String sql = "DELETE FROM cars WHERE id = ?";
 
@@ -180,6 +188,8 @@ public class CarDAO {
         }
     }
 
+
+    //Busca un coche en concreto por su id, para abrir la vista de detalles
     public Car findById(int carId) {
         String sql = """
             SELECT id, brand, model, horse_power, car_type, registration_date, image_path

@@ -2,9 +2,7 @@ package com.recuperacion.carmanager.utils;
 
 import com.recuperacion.carmanager.model.User;
 
-import java.util.Objects;
-
-public class Session {
+public class Session { //método sencillo que crea una sesión
 
     private static User currentUser;
 
@@ -17,10 +15,6 @@ public class Session {
 
     public static User getCurrentUser() {
         return currentUser;
-    }
-
-    public static boolean isLoggedIn() {
-        return currentUser != null;
     }
 
     public static boolean isAdmin() {

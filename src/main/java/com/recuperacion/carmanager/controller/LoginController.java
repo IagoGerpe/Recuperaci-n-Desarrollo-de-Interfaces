@@ -30,7 +30,7 @@ public class LoginController {
     private Label messageLabel;
 
     @FXML
-    private void handleLogin() {
+    private void handleLogin() { // se encarga de iniciar sesión de un usuario existente
         String username = usernameField.getText().trim();
         String password = passwordField.getText();
 
@@ -53,9 +53,9 @@ public class LoginController {
             return;
         }
 
-        Session.setCurrentUser(user);
+        Session.setCurrentUser(user); //creamos una sesión con el usuario actual
 
-        if (Session.isAdmin()) {
+        if (Session.isAdmin()) { //si es admin NO guardamos la sesión persistente aunque marquemos el checkbox
             RememberSessionUtil.clearRememberedUser();
         } else if (rememberSessionCheckBox.isSelected()) {
             RememberSessionUtil.saveRememberedUser(user.getUsername());

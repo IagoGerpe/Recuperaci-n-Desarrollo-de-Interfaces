@@ -10,13 +10,14 @@ import javax.crypto.spec.PBEKeySpec;
 
 public class PasswordUtil { //Esta clase está reciclada de mi trabajo de programación de servicios y procesos
 
+    //constantes para el algoritmo del hash
     private static final int SALT_LENGTH = 16;
     private static final int ITERATIONS = 65536;
     private static final int KEY_LENGTH = 256;
 
     private PasswordUtil() {}
 
-    public static String hashPassword(String password) {
+    public static String hashPassword(String password) { //este metodo es el que recibe la contraseña y aplica el hash tanto el hash como el salt, devolviendo una contraseña segura de guardar en la base de datos
         byte[] salt = generateSalt();
         byte[] hash = generateHash(password, salt);
 
@@ -26,7 +27,7 @@ public class PasswordUtil { //Esta clase está reciclada de mi trabajo de progra
         return encodedSalt + ":" + encodedHash;
     }
 
-    public static boolean checkPassword(String password, String storedPassword) {
+    public static boolean checkPassword(String password, String storedPassword) { //método que comprueba que la contraseña aportada coincide con la contraseña del usuario solicitado (para el login vaya)
         String[] parts = storedPassword.split(":");
 
         if (parts.length != 2) {
@@ -40,14 +41,14 @@ public class PasswordUtil { //Esta clase está reciclada de mi trabajo de progra
         return slowEquals(storedHash, passwordHash);
     }
 
-    private static byte[] generateSalt() {
+    private static byte[] generateSalt() { //el salt se añade a la contraseña de un usuario para que dos usuarios diferntes no tengan el mismo hash en caso de que usen la misma contraseña
         SecureRandom secureRandom = new SecureRandom();
         byte[] salt = new byte[SALT_LENGTH];
         secureRandom.nextBytes(salt);
         return salt;
     }
 
-    private static byte[] generateHash(String password, byte[] salt) {
+    private static byte[] generateHash(String password, byte[] salt) { //este método genera el hash con la contraseña dada
         try {
             PBEKeySpec keySpec = new PBEKeySpec(
                     password.toCharArray(),
@@ -64,7 +65,7 @@ public class PasswordUtil { //Esta clase está reciclada de mi trabajo de progra
         }
     }
 
-    private static boolean slowEquals(byte[] firstArray, byte[] secondArray) {
+    private static boolean slowEquals(byte[] firstArray, byte[] secondArray) { //compara dos arrays de bytes, sin importar la longitud de las contraseañs para evitar timing attacks
         if (firstArray.length != secondArray.length) {
             return false;
         }

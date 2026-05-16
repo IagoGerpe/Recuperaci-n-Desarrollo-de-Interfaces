@@ -11,8 +11,10 @@ import com.recuperacion.carmanager.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoritoDAO {
+public class FavoritoDAO { //Método para acceder a la tabla relacional favoritos
 
+
+    //este metodo devuelve el coche favorito de un usuario (para poder marcarlo en la carsview)
     public int findFavoriteCarIdByUserId(int userId) {
         String sql = """
                 SELECT car_id
@@ -39,6 +41,7 @@ public class FavoritoDAO {
         return -1;
     }
 
+    //Este método cambia el coche favorito de un usuario
     public boolean setFavoriteCar(int userId, int carId) {
         String sql = """
                 INSERT INTO favorites (user_id, car_id)
@@ -62,15 +65,15 @@ public class FavoritoDAO {
         }
     }
 
+    //Método para encontrar el coche favorito de un usuario (para marcarlo en el carsview)
     public int findMostFavoriteCarId() {
         String sql = """
                 SELECT car_id, COUNT(*) AS total
                 FROM favorites
                 GROUP BY car_id
                 ORDER BY total DESC, car_id ASC
-                LIMIT 1
+                LIMIT 1 
                 """;
-
         try (
                 Connection connection = Database.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -87,6 +90,7 @@ public class FavoritoDAO {
         return -1;
     }
 
+    //Este método cuenta los usuarios que tienen como favorito cierto coche, para el ranking y para la carsview
     public int countFavoritesByCarId(int carId) {
         String sql = """
                 SELECT COUNT(*) AS total
@@ -113,6 +117,7 @@ public class FavoritoDAO {
         return 0;
     }
 
+    //Este metodo construye la clasificiación, juntando la tabla coches y la tabla favoritos (left para que aparezcan todos los coches)
     public List<Leaderboard> findLeaderboardEntries() {
         String sql = """
                 SELECT c.id,
@@ -157,6 +162,7 @@ public class FavoritoDAO {
         return leaderboardEntries;
     }
 
+    //Método que encuentra la posición del ranking de un coche para enseñarlo en el detailsview
     public int findRankingPositionByCarId(int carId) {
         List<Leaderboard> entries = findLeaderboardEntries();
 
@@ -169,6 +175,8 @@ public class FavoritoDAO {
         return -1;
     }
 
+
+    //Método que encuentra a todos los usuarios que tienen como favorito cierto coche para ponerlo en el detailsview
     public List<User> findUsersByFavoriteCarId(int carId) {
         String sql = """
             SELECT u.id, u.username, u.email, u.password, u.role

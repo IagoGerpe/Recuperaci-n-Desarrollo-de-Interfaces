@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserDAO { //Clase que saca información de la tabla de usuarios
 
-    public boolean existsByUsername(String username) {
+    public boolean existsByUsername(String username) { //Comprueba que exisa un usuario con el nombre dado para evitar repetirlo
         String sql = "SELECT id FROM users WHERE username = ?";
 
         try (
@@ -31,7 +31,7 @@ public class UserDAO {
         }
     }
 
-    public boolean existsByEmail(String email) {
+    public boolean existsByEmail(String email) { // comprubea que exxista con el mism email para no repetirlo
         String sql = "SELECT id FROM users WHERE email = ?";
 
         try (
@@ -50,7 +50,7 @@ public class UserDAO {
         }
     }
 
-    public boolean save(User user) {
+    public boolean save(User user) { //método usado por en el register para guardar nuevos usuario en la dataase
         String sql = """
                 INSERT INTO users (username, email, password, role)
                 VALUES (?, ?, ?, ?)
@@ -73,7 +73,7 @@ public class UserDAO {
         }
     }
 
-    public User findByUsername(String username) {
+    public User findByUsername(String username) { //método para encontrar un usuario con el username dado
         String sql = """
                 SELECT id, username, email, password, role
                 FROM users
@@ -99,7 +99,7 @@ public class UserDAO {
         return null;
     }
 
-    public List<User> findAll() {
+    public List<User> findAll() { //devuelve una lista con todos los usuarios, usado para mostrarlo en la vista de usuarios
         String sql = """
                 SELECT id, username, email, password, role
                 FROM users
@@ -124,7 +124,7 @@ public class UserDAO {
         return users;
     }
 
-    public List<User> findByEmail(String emailFilter) {
+    public List<User> findByEmail(String emailFilter) { //encuentra a cierto usuario por el email
         String sql = """
                 SELECT id, username, email, password, role
                 FROM users
@@ -153,7 +153,7 @@ public class UserDAO {
         return users;
     }
 
-    public boolean updateRole(int userId, String role) {
+    public boolean updateRole(int userId, String role) { //actualiza el rol del usuario de user a admin o viceversa
         String sql = """
                 UPDATE users
                 SET role = ?
@@ -175,7 +175,7 @@ public class UserDAO {
         }
     }
 
-    public boolean deleteById(int userId) {
+    public boolean deleteById(int userId) { //borra a un usuario utilizando un id en concreto
         String sql = "DELETE FROM users WHERE id = ?";
 
         try (
@@ -192,6 +192,7 @@ public class UserDAO {
         }
     }
 
+    //Este metodo convierte una fila de la tabla de users de la base de datos a un objeto usuario dentro del programa
     private User mapResultSetToUser(ResultSet resultSet) throws SQLException {
         return new User(
                 resultSet.getInt("id"),

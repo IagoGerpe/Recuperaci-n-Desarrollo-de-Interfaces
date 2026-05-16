@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.List;
 
-public class CarDetailsController {
+public class CarDetailsController { //clase que controla la vista de los detalles de cada coche individual
 
     private final FavoritoDAO favoritoDAO = new FavoritoDAO();
 
@@ -25,9 +25,6 @@ public class CarDetailsController {
 
     @FXML
     private BorderPane detailRoot;
-
-    @FXML
-    private StackPane imageContainer;
 
     @FXML
     private ImageView carImageView;
@@ -63,20 +60,20 @@ public class CarDetailsController {
     private Label messageLabel;
 
     @FXML
-    private void initialize() {
+    private void initialize() { //método inicial para configurar la vista
         carImageView.setFitWidth(780);
         carImageView.setFitHeight(520);
         carImageView.setPreserveRatio(true);
         carImageView.setSmooth(true);
     }
 
-    public void setCar(Car car) {
+    public void setCar(Car car) { //método que carga el coche en concreto que queremos mostrar
         this.car = car;
         loadCarDetails();
     }
 
     @FXML
-    private void handleBackToCars() {
+    private void handleBackToCars() { //método que nos devuelve a la pestaña de carsview
         try {
             URL fxmlUrl = CarDetailsController.class.getResource("/fxml/cars-view.fxml");
 
@@ -98,7 +95,7 @@ public class CarDetailsController {
         }
     }
 
-    private void loadCarDetails() {
+    private void loadCarDetails() { //método que carga todos los detalles del coche y crea una interfaz para él
         if (car == null) {
             messageLabel.setText("No se pudo cargar el coche seleccionado.");
             return;
@@ -114,7 +111,7 @@ public class CarDetailsController {
         loadFavoriteData();
     }
 
-    private void loadImage() {
+    private void loadImage() { //crea la imagen de la ventana de detalles
         URL imageUrl = getImageUrl(car.getImagePath());
 
         if (imageUrl == null) {
@@ -130,7 +127,7 @@ public class CarDetailsController {
         imagePlaceholderLabel.setVisible(false);
     }
 
-    private void loadFavoriteData() {
+    private void loadFavoriteData() { //método que carga toda la información de favoritos
         int votes = favoritoDAO.countFavoritesByCarId(car.getId());
         int rankingPosition = favoritoDAO.findRankingPositionByCarId(car.getId());
 
@@ -145,7 +142,7 @@ public class CarDetailsController {
         loadFavoriteUsers();
     }
 
-    private void loadFavoriteUsers() {
+    private void loadFavoriteUsers() { //método que carga a los usuarios que tengan como favorito el coche seleccionado
         favoriteUsersBox.getChildren().clear();
 
         List<User> users = favoritoDAO.findUsersByFavoriteCarId(car.getId());
@@ -164,7 +161,7 @@ public class CarDetailsController {
         }
     }
 
-    private URL getImageUrl(String imagePath) {
+    private URL getImageUrl(String imagePath) { //método que convierte el enlace de la imagen a un formato legible por fxml
         if (imagePath == null || imagePath.isBlank()) {
             return null;
         }
