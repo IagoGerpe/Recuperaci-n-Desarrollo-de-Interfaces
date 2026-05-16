@@ -4,9 +4,11 @@ import com.recuperacion.carmanager.AppShell;
 import com.recuperacion.carmanager.dao.UserDAO;
 import com.recuperacion.carmanager.model.User;
 import com.recuperacion.carmanager.utils.PasswordUtil;
+import com.recuperacion.carmanager.utils.RememberSessionUtil;
 import com.recuperacion.carmanager.utils.Session;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,11 +24,14 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
+    private CheckBox rememberSessionCheckBox;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
     private void handleLogin() {
-        String username = usernameField.getText();
+        String username = usernameField.getText().trim();
         String password = passwordField.getText();
 
         if (username.isBlank() || password.isBlank()) {
@@ -49,6 +54,15 @@ public class LoginController {
         }
 
         Session.setCurrentUser(user);
+
+        if (Session.isAdmin()) {
+            RememberSessionUtil.clearRememberedUser();
+        } else if (rememberSessionCheckBox.isSelected()) {
+            RememberSessionUtil.saveRememberedUser(user.getUsername());
+        } else {
+            RememberSessionUtil.clearRememberedUser();
+        }
+
         AppShell.showMainView();
     }
 

@@ -3,6 +3,7 @@ package com.recuperacion.carmanager.controller;
 import com.recuperacion.carmanager.AppShell;
 import com.recuperacion.carmanager.model.User;
 import com.recuperacion.carmanager.utils.Session;
+import com.recuperacion.carmanager.utils.RememberSessionUtil;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,6 +64,7 @@ public class MainController {
 
     @FXML
     private void handleLogout() {
+        RememberSessionUtil.clearRememberedUser();
         Session.clear();
         AppShell.showLoginView();
     }

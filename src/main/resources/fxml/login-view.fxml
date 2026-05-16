@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.CheckBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -30,6 +31,11 @@
                    promptText="Contraseña"
                    maxWidth="280"
                    styleClass="form-field"/>
+
+    <CheckBox fx:id="rememberSessionCheckBox"
+              text="Mantener sesión iniciada"
+              maxWidth="280"
+              styleClass="remember-checkbox"/>
 
     <Label fx:id="messageLabel" styleClass="error-label"/>
 

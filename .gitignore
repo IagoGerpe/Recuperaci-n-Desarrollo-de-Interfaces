@@ -6,3 +6,4 @@ out/
 *.ipr
 *.class
 .DS_Store
+src/main/resources/session/session.txt

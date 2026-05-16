@@ -599,3 +599,20 @@
     -fx-text-fill: #047857;
     -fx-font-style: italic;
 }
+
+.remember-checkbox {
+    -fx-font-size: 13px;
+    -fx-text-fill: #166534;
+    -fx-font-weight: bold;
+}
+
+.remember-checkbox .box {
+    -fx-background-color: #f0fdf4;
+    -fx-border-color: #86efac;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.remember-checkbox:selected .mark {
+    -fx-background-color: #15803d;
+}
